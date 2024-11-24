@@ -2,19 +2,14 @@ package utils;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-//import org.apache.poi.ss.usermodel.Sheet;
-//import org.apache.poi.ss.usermodel.Workbook;
-//import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Properties;
 
 public class WebActions {
-    private Page page;
+    private final Page page;
 
     public WebActions(Page page) {
         this.page = page;

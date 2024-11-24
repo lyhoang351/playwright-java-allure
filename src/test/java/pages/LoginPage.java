@@ -5,7 +5,6 @@ import com.microsoft.playwright.Page;
 import utils.WebActions;
 
 public class LoginPage extends BasePage {
-    private Page page;
     public final Locator USERNAME_EDITBOX;
     public final Locator PASSWORD_EDITBOX;
     private final Locator LOGIN_BUTTON;
@@ -13,8 +12,8 @@ public class LoginPage extends BasePage {
     private final Locator USER;
     public final Locator ERROR_MESSAGE;
 
-    public LoginPage(Page page) {
-        super(page);
+    public LoginPage(Page page, String testCaseName) {
+        super(page, testCaseName);
         this.USERNAME_EDITBOX = page.locator("//input[@formcontrolname='username']");
         this.PASSWORD_EDITBOX = page.locator("//input[@formcontrolname='password']");
         this.LOGIN_BUTTON = page.locator("//button/span[text()='Login']");
@@ -44,7 +43,7 @@ public class LoginPage extends BasePage {
     }
 
     public void clickOnIcon(String iconName) {
-        this.page.getByText(iconName, new Page.GetByTextOptions().setExact(true)).click();  // Clicks on the Exact text
+        this.PAGE.getByText(iconName, new Page.GetByTextOptions().setExact(true)).click();  // Clicks on the Exact text
     }
 
     public boolean verifyProfilePage() {

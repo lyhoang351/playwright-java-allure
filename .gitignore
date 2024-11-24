@@ -39,4 +39,5 @@ build/
 
 .allure
 /allure-report
+/screenshots
 .idea

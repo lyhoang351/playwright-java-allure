@@ -1,20 +1,19 @@
 package tests;
 
-import factory.DriverFactory;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import pages.LoginPage;
-import org.testng.annotations.*;
-import io.qameta.allure.Step;
-import utils.WebActions;
+
+import java.lang.reflect.Method;
 
 import static io.qameta.allure.Allure.step;
 
-public class LoginPageTest {
+public class LoginPageTest extends BaseTest{
     private LoginPage loginPage;
 
-    @BeforeClass
-    private void setUp() {
-        new DriverFactory().initDriver("chrome"); // Pa
-        this.loginPage = new LoginPage(DriverFactory.getPage());
+    @BeforeMethod
+    private void setUp(Method method) {
+        this.loginPage = new LoginPage(initBrowser(), method.getName());
     }
 
     @Test
@@ -22,10 +21,18 @@ public class LoginPageTest {
         step("User navigates to LoginPage");
         loginPage.navigateToUrl();
         step("Take screenshot");
+        loginPage.takeScreenShot();
         step("User enters invalid username");
+        loginPage.enterUsername("aaaabcc-invaid@az");
+        step("User enters invalid password");
+        loginPage.enterPassword("21111asf");
         step("Take screenshot");
+        loginPage.takeScreenShot();
+        step("User click to login button");
+        loginPage.clickLogin();
+        step("Verify Profile Page");
+        assert !loginPage.verifyProfilePage();
         step("Take screenshot");
-        step("Take screenshot");
-        step("Take screenshot");
+        loginPage.takeScreenShot();
     }
 }
