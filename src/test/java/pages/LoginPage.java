@@ -2,6 +2,7 @@ package pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import io.qameta.allure.Step;
 import utils.WebActions;
 
 public class LoginPage extends BasePage {
@@ -12,28 +13,32 @@ public class LoginPage extends BasePage {
     private final Locator USER;
     public final Locator ERROR_MESSAGE;
 
-    public LoginPage(Page page, String testCaseName) {
-        super(page, testCaseName);
-        this.USERNAME_EDITBOX = page.locator("//input[@formcontrolname='username']");
-        this.PASSWORD_EDITBOX = page.locator("//input[@formcontrolname='password']");
-        this.LOGIN_BUTTON = page.locator("//button/span[text()='Login']");
-        this.REGISTER_LINK = page.locator("//button/span[text()='Register']");
-        this.USER = page.locator("//*[@aria-haspopup='menu']//span[contains(@class, 'label')]");
-        this.ERROR_MESSAGE = page.locator("//mat-error");
+    public LoginPage(BasePage page) {
+        super(page.PAGE, page.TC_NAME);
+        this.USERNAME_EDITBOX = page.PAGE.locator("//input[@formcontrolname='username']");
+        this.PASSWORD_EDITBOX = page.PAGE.locator("//input[@formcontrolname='password']");
+        this.LOGIN_BUTTON = page.PAGE.locator("//button/span[text()='Login']");
+        this.REGISTER_LINK = page.PAGE.locator("//button/span[text()='Register']");
+        this.USER = page.PAGE.locator("//*[@aria-haspopup='menu']//span[contains(@class, 'label')]");
+        this.ERROR_MESSAGE = page.PAGE.locator("//mat-error");
     }
 
+    @Step("User navigates to LoginPage")
     public void navigateToUrl() {
         super.navigateToUrl("https://bookcart.azurewebsites.net/login");
     }
 
+    @Step("User enters {username}")
     public void enterUsername(String username) {
         USERNAME_EDITBOX.fill(username);
     }
 
+    @Step("User enters {password}")
     public void enterPassword(String password) {
         PASSWORD_EDITBOX.fill(password);
     }
 
+    @Step("User click to login button")
     public void clickLogin() {
         LOGIN_BUTTON.click();
     }
@@ -46,8 +51,9 @@ public class LoginPage extends BasePage {
         this.PAGE.getByText(iconName, new Page.GetByTextOptions().setExact(true)).click();  // Clicks on the Exact text
     }
 
+    @Step("Verify Profile Page")
     public boolean verifyProfilePage() {
-        return WebActions.waitUntilElementDisplayed(this.USER, 30);
+        return WebActions.waitUntilElementDisplayed(this.USER, 5);
     }
 
     public String getErrorMessage(){

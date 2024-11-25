@@ -39,5 +39,5 @@ build/
 
 .allure
 /allure-report
-/screenshots
+src/test/screenshots
 .idea

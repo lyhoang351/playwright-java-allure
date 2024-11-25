@@ -2,7 +2,10 @@ package tests;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import io.qameta.allure.Allure;
+import pages.BasePage;
 import pages.LoginPage;
+import io.qameta.allure.listener.StepLifecycleListener;
 
 import java.lang.reflect.Method;
 
@@ -13,26 +16,15 @@ public class LoginPageTest extends BaseTest{
 
     @BeforeMethod
     private void setUp(Method method) {
-        this.loginPage = new LoginPage(initBrowser(), method.getName());
+        this.loginPage = new LoginPage(initBasePage(method));
     }
 
     @Test
-    public void loginSuccessfully(){
-        step("User navigates to LoginPage");
+    public void loginFailWithInvalidUsernameAndPassword(){
         loginPage.navigateToUrl();
-        step("Take screenshot");
-        loginPage.takeScreenShot();
-        step("User enters invalid username");
         loginPage.enterUsername("aaaabcc-invaid@az");
-        step("User enters invalid password");
         loginPage.enterPassword("21111asf");
-        step("Take screenshot");
-        loginPage.takeScreenShot();
-        step("User click to login button");
         loginPage.clickLogin();
-        step("Verify Profile Page");
         assert !loginPage.verifyProfilePage();
-        step("Take screenshot");
-        loginPage.takeScreenShot();
     }
 }
