@@ -1,25 +1,25 @@
 package utils;
 
-import io.qameta.allure.Allure;
 import io.qameta.allure.listener.StepLifecycleListener;
 import io.qameta.allure.listener.TestLifecycleListener;
 import io.qameta.allure.model.StepResult;
 import io.qameta.allure.model.TestResult;
 import tests.BaseTest;
 
-import static pages.BasePage.takeScreenshotByPage;
-
-public class StepListener implements StepLifecycleListener, TestLifecycleListener {
-    public static String testcaseName;
+public class TestListener implements StepLifecycleListener, TestLifecycleListener {
+    public static final ThreadLocal<String> THREAD_LOCAL_TC_NAME = new ThreadLocal<>();
 
     @Override
     public void beforeTestStart(TestResult result) {
-       testcaseName = result.getName();
+        THREAD_LOCAL_TC_NAME.set(result.getName());
     }
 
     @Override
     public void beforeStepStop(StepResult step) {
-        takeScreenshotByPage(BaseTest.BASE_PAGE, testcaseName);
-        StepLifecycleListener.super.beforeStepStop(step);
+        BaseTest.getBasePage().takeScreenShot();
+    }
+
+    public static synchronized String getTestCastName() {
+        return THREAD_LOCAL_TC_NAME.get();
     }
 }

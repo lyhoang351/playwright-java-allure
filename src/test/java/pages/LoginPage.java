@@ -14,13 +14,13 @@ public class LoginPage extends BasePage {
     public final Locator ERROR_MESSAGE;
 
     public LoginPage(BasePage page) {
-        super(page.PAGE, page.TC_NAME);
-        this.USERNAME_EDITBOX = page.PAGE.locator("//input[@formcontrolname='username']");
-        this.PASSWORD_EDITBOX = page.PAGE.locator("//input[@formcontrolname='password']");
-        this.LOGIN_BUTTON = page.PAGE.locator("//button/span[text()='Login']");
-        this.REGISTER_LINK = page.PAGE.locator("//button/span[text()='Register']");
-        this.USER = page.PAGE.locator("//*[@aria-haspopup='menu']//span[contains(@class, 'label')]");
-        this.ERROR_MESSAGE = page.PAGE.locator("//mat-error");
+        super(page.page);
+        this.USERNAME_EDITBOX = page.page.locator("//input[@formcontrolname='username']");
+        this.PASSWORD_EDITBOX = page.page.locator("//input[@formcontrolname='password']");
+        this.LOGIN_BUTTON = page.page.locator("//button/span[text()='Login']");
+        this.REGISTER_LINK = page.page.locator("//button/span[text()='Register']");
+        this.USER = page.page.locator("//*[@aria-haspopup='menu']//span[contains(@class, 'label')]");
+        this.ERROR_MESSAGE = page.page.locator("//mat-error");
     }
 
     @Step("User navigates to LoginPage")
@@ -48,7 +48,7 @@ public class LoginPage extends BasePage {
     }
 
     public void clickOnIcon(String iconName) {
-        this.PAGE.getByText(iconName, new Page.GetByTextOptions().setExact(true)).click();  // Clicks on the Exact text
+        this.page.getByText(iconName, new Page.GetByTextOptions().setExact(true)).click();  // Clicks on the Exact text
     }
 
     @Step("Verify Profile Page")

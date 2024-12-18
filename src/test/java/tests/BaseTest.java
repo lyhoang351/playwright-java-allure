@@ -1,45 +1,30 @@
 package tests;
 
-import com.microsoft.playwright.Page;
 import factory.DriverFactory;
-import io.qameta.allure.Allure;
 import org.testng.annotations.AfterMethod;
-
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import pages.BasePage;
-import utils.WebActions;
-
-import java.lang.reflect.Method;
+import utils.ConfigReader;
 
 
 public class BaseTest {
 
-    public static BasePage BASE_PAGE;
+    public static BasePage basePage;
+    private static final ThreadLocal<BasePage> THREAD_LOCAL_BASE_PAGE = new ThreadLocal<>();
 
-    public Page initBrowser() {
-        String browserName = WebActions.getProperty("browser");
-        return new DriverFactory().initDriver(browserName);
-    }
-
-    public BasePage initBasePage(Method method){
-        BASE_PAGE = new BasePage(initBrowser(),  method.getName());
-        return BASE_PAGE;
-    }
-
-    @BeforeClass
-    public void setUp(){
+    @BeforeMethod
+    void initBasePage() {
+        String browserName = ConfigReader.getProperty("browser");
+        basePage = new BasePage(DriverFactory.initDriver(browserName));
+        THREAD_LOCAL_BASE_PAGE.set(basePage);
     }
 
     @AfterMethod
-    public void closeBrowser() {
-        BASE_PAGE.PAGE.close();
+    void closeBrowser() {
+        getBasePage().page.close();
     }
 
-//    @Override
-//    public void afterStepStop(StepResult result) {
-//
-//        new BasePage(PAGE)
-//        StepLifecycleListener.super.afterStepStop(result);
-//    }
-
+    public static BasePage getBasePage() {
+        return THREAD_LOCAL_BASE_PAGE.get();
+    }
 }
